@@ -132,6 +132,12 @@ class TestCancelWorkflow:
 class TestCompletion:
     """F-05 and F-06: natural completion at 100%."""
 
+    @staticmethod
+    def _run_to_completion(controller: ProgressController) -> None:
+        """Manually fire timer ticks until progress reaches 100%."""
+        for _ in range(100):
+            controller._on_timer_tick()
+
     def test_completion_emits_progress_completed(
         self,
         controller: ProgressController,
@@ -140,8 +146,8 @@ class TestCompletion:
         qtbot: QtBot,
     ) -> None:
         window.start_requested.emit()
-        with qtbot.waitSignal(controller.progress_completed, timeout=12_000):
-            pass  # wait for timer to fire 100 ticks
+        with qtbot.waitSignal(controller.progress_completed, timeout=1_000):
+            self._run_to_completion(controller)
 
     def test_completion_hides_dialog(
         self,
@@ -151,8 +157,8 @@ class TestCompletion:
         qtbot: QtBot,
     ) -> None:
         window.start_requested.emit()
-        with qtbot.waitSignal(controller.progress_completed, timeout=12_000):
-            pass
+        with qtbot.waitSignal(controller.progress_completed, timeout=1_000):
+            self._run_to_completion(controller)
         assert not dialog.isVisible()
 
     def test_completion_enables_start_button(
@@ -163,6 +169,6 @@ class TestCompletion:
         qtbot: QtBot,
     ) -> None:
         window.start_requested.emit()
-        with qtbot.waitSignal(controller.progress_completed, timeout=12_000):
-            pass
+        with qtbot.waitSignal(controller.progress_completed, timeout=1_000):
+            self._run_to_completion(controller)
         assert window._ui.startButton.isEnabled()
