@@ -31,7 +31,7 @@ jobs:
         run: uv run build-exe
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a7e09ce9571a2f5c9e6  # v2.2.1
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b  # v2.5.0
         with:
           files: dist/simple.exe
           fail_on_unmatched_files: true
