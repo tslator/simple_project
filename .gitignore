@@ -11,7 +11,7 @@ wheels/
 
 # Generated UI and resource files (produced by build-ui)
 src/simple/generated/ui_*.py
-src/simple/generated/rc_*.py
+src/simple/generated/resources_rc.py
 
 # Coverage
 coverage.xml
