@@ -55,16 +55,12 @@ class TestSetRunning:
 class TestSignals:
     """Buttons emit the correct signals (F-01, F-07)."""
 
-    def test_start_button_emits_start_requested(
-        self, window: MainWindow, qtbot: QtBot
-    ) -> None:
+    def test_start_button_emits_start_requested(self, window: MainWindow, qtbot: QtBot) -> None:
         window.show()
         with qtbot.waitSignal(window.start_requested, timeout=1000):
             qtbot.mouseClick(window._ui.startButton, Qt.MouseButton.LeftButton)
 
-    def test_stop_button_emits_stop_requested(
-        self, window: MainWindow, qtbot: QtBot
-    ) -> None:
+    def test_stop_button_emits_stop_requested(self, window: MainWindow, qtbot: QtBot) -> None:
         window.set_running(True)
         window.show()
         with qtbot.waitSignal(window.stop_requested, timeout=1000):
