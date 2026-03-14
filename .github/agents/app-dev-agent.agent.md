@@ -249,25 +249,17 @@ When implementing release automation:
 - Create a GitHub Release from the tag.
 - Attach build artifacts produced by the project's build pipeline.
 
-**Identifying artifacts (fill in per project):**
-The release workflow should upload whatever the project's build step produces.
-Common patterns for repos using this template:
+**Project artifact (this repo):**
 
-| Project type | Build command | Artifact path |
-|---|---|---|
-| PySide6 desktop app | `uv run build-exe` | `dist/<app-name>[.exe]` |
+| Project type | Runner | Build commands | Artifact path |
+|---|---|---|---|
+| PySide6 desktop app (`simple`) | `windows-latest` | `uv run build-ui` then `uv run build-exe` | `dist/simple.exe` |
 
-A minimal release job structure:
+> **Note:** `build-ui` must run before `build-exe`. The generated files
+> (`ui_*.py`, `resources_rc.py`) are gitignored and must be compiled fresh
+> on every CI run.
 
-```yaml
-- name: Build
-  run: uv run build-exe        # replace with this project's build command
-
-- name: Create GitHub Release
-  uses: softprops/action-gh-release@v2
-  with:
-    files: dist/*              # replace with this project's artifact path
-```
+The release workflow is implemented at `.github/workflows/release.yml`.
 
 Do not publish externally (PyPI, containers, etc.) unless explicitly requested.
 
@@ -275,6 +267,56 @@ Do not publish externally (PyPI, containers, etc.) unless explicitly requested.
 Maintain `CHANGELOG.md` (or repo equivalent). Each release should have:
 - Added / Changed / Fixed / Removed
 - Upgrade notes for breaking changes
+
+### 8.5 Release procedure
+
+The agent handles CHANGELOG edits and workflow authoring. The human must
+execute the git/gh commands below.
+
+**Step 1 — Pre-flight**
+
+Confirm `main` CI is green and the working tree is clean:
+
+```bash
+git fetch origin
+git status
+```
+
+**Step 2 — CHANGELOG update**
+
+Ask the agent to promote `[Unreleased]` to `[X.Y.Z]` in `CHANGELOG.md`.
+
+**Step 3 — Create and merge the release PR**
+
+```bash
+git checkout -b chore/release-vX.Y.Z
+git add CHANGELOG.md
+git commit -m "chore: promote [Unreleased] to vX.Y.Z in CHANGELOG"
+git push origin chore/release-vX.Y.Z
+gh pr create \
+  --title "chore: release vX.Y.Z" \
+  --body "Promotes [Unreleased] to [X.Y.Z] in CHANGELOG. Tag pushed after merge triggers the release workflow."
+```
+
+Wait for CI to go green, then **squash-merge** the PR on GitHub.
+
+**Step 4 — Tag and trigger the release**
+
+```bash
+git checkout main
+git pull origin main
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+git push origin vX.Y.Z
+```
+
+This tag push triggers `release.yml`, which builds `dist/simple.exe` on
+`windows-latest` and publishes the GitHub Release automatically.
+
+**Step 5 — Post-release verification**
+
+- Confirm the GitHub Release page shows `vX.Y.Z` with `simple.exe` attached.
+- Download and smoke-test the artifact.
+- Confirm `CHANGELOG.md` on `main` has a clean empty `[Unreleased]` section.
 
 ---
 
