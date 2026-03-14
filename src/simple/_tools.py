@@ -30,7 +30,7 @@ def build_ui() -> None:
     for ui_file in sorted(ui_dir.glob("*.ui")):
         out_file = generated_dir / f"ui_{ui_file.stem}.py"
         _run(["pyside6-uic", str(ui_file), "-o", str(out_file)])
-        print(f"  compiled {ui_file.name} → {out_file.name}")
+        print(f"  compiled {ui_file.name} -> {out_file.name}")
 
     qrc_file = _SRC_PKG / "resources" / "resources.qrc"
     if qrc_file.exists():
@@ -38,7 +38,7 @@ def build_ui() -> None:
         # matching that name keeps the generated files self-consistent.
         out_file = generated_dir / "resources_rc.py"
         _run(["pyside6-rcc", str(qrc_file), "-o", str(out_file)])
-        print(f"  compiled {qrc_file.name} → {out_file.name}")
+        print(f"  compiled {qrc_file.name} -> {out_file.name}")
 
     # pyside6-uic emits a bare `import resources_rc` which is only resolvable if
     # the generated/ directory is on sys.path.  Patch it to a relative import so
