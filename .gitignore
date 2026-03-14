@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Generated UI and resource files (produced by build-ui)
+src/simple/generated/ui_*.py
+src/simple/generated/rc_*.py
+
+# Coverage
+coverage.xml
+.coverage
+
+# PyInstaller
+*.spec
+
+# IDE
+.idea/
+.vscode/
