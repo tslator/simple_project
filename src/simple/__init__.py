@@ -1,2 +1,1 @@
-def hello() -> str:
-    return "Hello from simple-project!"
+# simple — PySide6 desktop application skeleton.

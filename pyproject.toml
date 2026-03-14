@@ -37,9 +37,9 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 omit = [
-    "src/simple/app.py",
     "src/simple/_tools.py",
     "src/main.py",
+    "src/simple/generated/*.py",
 ]
 
 [tool.ruff]

@@ -1,0 +1,19 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/">
+    <file alias="images/bg_gradient.svg">bg_gradient.svg</file>
+    <file alias="icons/app.svg">icon_app.svg</file>
+    <file alias="icons/start.svg">icon_start.svg</file>
+    <file alias="icons/stop.svg">icon_stop.svg</file>
+    <file alias="icons/new.svg">icon_new.svg</file>
+    <file alias="icons/open.svg">icon_open.svg</file>
+    <file alias="icons/save.svg">icon_save.svg</file>
+    <file alias="icons/exit.svg">icon_exit.svg</file>
+    <file alias="icons/undo.svg">icon_undo.svg</file>
+    <file alias="icons/redo.svg">icon_redo.svg</file>
+    <file alias="icons/cut.svg">icon_cut.svg</file>
+    <file alias="icons/copy.svg">icon_copy.svg</file>
+    <file alias="icons/paste.svg">icon_paste.svg</file>
+    <file alias="icons/about.svg">icon_about.svg</file>
+  </qresource>
+</RCC>
